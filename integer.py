@@ -1,8 +1,6 @@
 class HugeInteger:
     def __init__(self, value="0"):
-        # Initialize the HugeInteger with an array of 40 zeros.
         self.digits = [0] * 40
-        # Parse the input string to populate the digits array.
         self.parse(value)
 
     def parse(self, value):
@@ -11,12 +9,9 @@ class HugeInteger:
         Each character of the string is converted into an integer and stored in the array.
         """
         if len(value) > 40:
-            # Raise an error if the input string exceeds 40 digits.
             raise ValueError("Value exceeds 40 digits.")
         for i, char in enumerate(value.zfill(40)):
-            # Pad the string with leading zeros to ensure 40 digits.
             if not char.isdigit():
-                # Confirm that the input contains only numeric characters.
                 raise ValueError("Value must only contain digits.")
             self.digits[i] = int(char)
 
@@ -28,31 +23,24 @@ class HugeInteger:
         return ''.join(map(str, self.digits)).lstrip('0') or '0'
 
     def isEqualTo(self, other):
-        # Check if the digits array of this object matches another HugeInteger.
         return self.digits == other.digits
 
     def isNotEqualTo(self, other):
-        # Return the negation of the isEqualTo method.
         return not self.isEqualTo(other)
 
     def isGreaterThan(self, other):
-        # Compare the digits arrays to check if this object is greater.
         return self.digits > other.digits
 
     def isLessThan(self, other):
-        # Compare the digits arrays to check if this object is lesser.
         return self.digits < other.digits
 
     def isGreaterThanOrEqualTo(self, other):
-        # Check if the HugeInteger is greater than or equal to another HugeInteger.
         return self.digits >= other.digits
 
     def isLessThanOrEqualTo(self, other):
-        # Check if the HugeInteger is less than or equal to another HugeInteger.
         return self.digits <= other.digits
 
     def isZero(self):
-        # Check if all elements in the digits array are zero.
         return all(digit == 0 for digit in self.digits)
 
     def add(self, other):
@@ -95,7 +83,7 @@ class HugeInteger:
         Uses a temporary array for intermediate results and checks for overflow.
         """
         result = HugeInteger()
-        temp_result = [0] * 80  # Array to hold up to 80 digits during multiplication.
+        temp_result = [0] * 80
         for i in range(39, -1, -1):
             carry = 0
             for j in range(39, -1, -1):
@@ -105,7 +93,7 @@ class HugeInteger:
             temp_result[i] += carry
         if any(temp_result[:40]):
             raise OverflowError("Multiplication overflow: result exceeds 40 digits.")
-        result.digits = temp_result[40:]  # Copy the last 40 digits to the result.
+        result.digits = temp_result[40:]
         return result
 
     def divide(self, other):
@@ -139,15 +127,14 @@ class HugeInteger:
                 remainder = remainder.subtract(other)
         return remainder
 
-# Example Usage
 num1 = HugeInteger("1234567890123456789012345678901234567890")
 num2 = HugeInteger("987654321098765432109876543210987654321")
 
-print("num1:", num1)  # Display the first HugeInteger.
-print("num2:", num2)  # Display the second HugeInteger.
+print("num1:", num1)
+print("num2:", num2)
 
-sum_result = num1.add(num2)  # Add num1 and num2.
+sum_result = num1.add(num2)
 print("Sum:", sum_result)
 
-diff_result = num1.subtract(num2)  # Subtract num2 from num1.
+diff_result = num1.subtract(num2)
 print("Difference:", diff_result)
